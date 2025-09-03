@@ -36,4 +36,21 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res)=>{
+  connectDb()
+  const {email, password} = req.body;
+
+  try {
+    const userDoc = await User.findOne({email: email})
+    const passwordCorrect = bcrypt.compareSync(password, userDoc.password)
+
+    passwordCorrect ? res.json(userDoc) : res.json("senha invalida")
+
+  } catch (error) {
+    res.status(500).json(error)
+  }
+  
+
+})
+
 export default router;

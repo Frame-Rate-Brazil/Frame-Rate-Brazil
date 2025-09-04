@@ -41,8 +41,11 @@ router.post("/login", async (req, res)=>{
   const {email, password} = req.body;
 
   try {
-    const userDoc = await User.findOne({email: email})
+    const userDoc = await User.findOne({email})
+
     const passwordCorrect = bcrypt.compareSync(password, userDoc.password)
+
+    console.log(passwordCorrect)
 
     passwordCorrect ? res.json(userDoc) : res.json("senha invalida")
 
